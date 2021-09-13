@@ -19,7 +19,11 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String login() {
-        return "login-page";
+    public String login(Principal principal) {
+        if (principal == null) {
+            return "login-page";
+        }
+
+        return "redirect:/auth";
     }
 }
