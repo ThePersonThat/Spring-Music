@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="en">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,10 +20,18 @@
                 SoundTrack
             </a>
 
-            <ul class="nav navbar-nav navbar-right">
-                <li><a class="btn btn-primary mr-4" href="">Sign Up</a></li>
-                <li><a class="btn btn-primary" href="/login">Login</a></li>
-            </ul>
+            <div sec:authorize="isAuthenticated()">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="btn btn-primary" href="/logout">Logout</a></li>
+                </ul>
+            </div>
+
+            <div sec:authorize="!isAuthenticated()">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="btn btn-primary mr-4" href="">Sign Up</a></li>
+                    <li><a class="btn btn-primary" href="/login">Login</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
 </header>

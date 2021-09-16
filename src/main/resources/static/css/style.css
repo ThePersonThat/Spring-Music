@@ -6,3 +6,10 @@
 .navbar-brand {
     font-size: 3.2vh;
 }
+
+.card {
+    width: 25rem;
+    height: 23rem;
+    border-radius: 20px;
+    border: 1px solid crimson;
+}
