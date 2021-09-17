@@ -1,3 +1,7 @@
+body {
+    height: 100vh;
+}
+
 .navbar {
     background: #243A5D;
     height: 70px;
@@ -12,4 +16,13 @@
     height: 23rem;
     border-radius: 20px;
     border: 1px solid crimson;
+}
+
+.card-decreased-size {
+    width: 20rem;
+    height: 18rem;
+}
+
+.form-label {
+    font-size: 18px;
 }

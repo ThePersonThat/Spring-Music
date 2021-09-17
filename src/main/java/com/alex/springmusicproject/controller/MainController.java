@@ -2,6 +2,9 @@ package com.alex.springmusicproject.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 
@@ -11,11 +14,6 @@ public class MainController {
     @GetMapping("/")
     public String home() {
         return "home-page";
-    }
-
-    @GetMapping("/auth")
-    public String auth() {
-        return "auth-page";
     }
 
     @GetMapping("/login")
