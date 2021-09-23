@@ -1,7 +1,6 @@
 package com.alex.springmusicproject.service;
 
 import com.alex.springmusicproject.entity.User;
-import com.alex.springmusicproject.excpetion.UserNotFoundException;
 import com.alex.springmusicproject.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

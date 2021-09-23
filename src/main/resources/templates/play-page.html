@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+<div class="container d-flex justify-content-center align-items-center h-100">
+    <div class="music-player">
+
+    </div>
+</div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+<script>
+    function startMusicPlaying() {
+        let sound = new Howl({
+            src: ["http://localhost:8080/auth/music"],
+            format: ["mp3"]
+        });
+
+        sound.play();
+    }
+</script>
+</html>
