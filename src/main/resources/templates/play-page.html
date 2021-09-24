@@ -2,25 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/css/style.css">
+    <style>
+        body {
+            background: #324264;
+        }
+    </style>
 </head>
 <body>
-<div class="container d-flex justify-content-center align-items-center h-100">
+<div class="container d-flex justify-content-center align-items-center h-100 w-100">
     <div class="music-player">
-
+        <h1 class="music-name">song one</h1>
+        <p class="artist-name">artist</p>
+        <div class="disk"></div>
+        <div class="song-slider">
+            <input type="range" value="0" class="seek-bar">
+            <span class="current-time">00:00</span>
+            <span class="song-duration">00:00</span>
+        </div>
+        <div class="controls">
+            <button class="btn-music backward-btn"><img src="images/pre.png" alt=""></button>
+            <button class="play-btn pause">
+                <span></span>
+                <span></span>
+            </button>
+            <button class="btn-music forward-btn"><img src="images/nxt.png" alt=""></button>
+        </div>
     </div>
 </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
-<script>
-    function startMusicPlaying() {
-        let sound = new Howl({
-            src: ["http://localhost:8080/auth/music"],
-            format: ["mp3"]
-        });
+<script type="module" src="../static/js/music.js"></script>
+<script type="module">
+    import * as music from '../static/js/music.js';
 
-        sound.play();
-    }
+    const playBtn = document.querySelector('.play-btn');
+    const currentTime = document.querySelector('.current-time');
+    const musicDuration = document.querySelector('.song-duration');
+    const seekBar = document.querySelector('.seek-bar');
+    let sound = undefined;
+
+    playBtn.addEventListener('click', () => {
+        if (playBtn.className.includes('pause')) {
+            if (sound === undefined) {
+                sound = music.load("http://localhost:8080/auth/music");
+                seekBar.value = 0;
+
+                sound.once('load', () => {
+                    sound.play();
+                    musicDuration.innerHTML = sound.getDuration();
+                    seekBar.max = sound.getNotFormatedDuration();
+
+                    setInterval(() => {
+                        seekBar.value = sound.getNotFormatedTime();
+                        currentTime.innerHTML = sound.getCurrentTime();
+                    }, 500);
+                })
+            } else {
+                sound.play();
+            }
+        } else {
+            sound.pause();
+        }
+        playBtn.classList.toggle('pause');
+    });
+
+    seekBar.addEventListener('change', () => {
+        sound.setCurrentTime(seekBar.value);
+    });
 </script>
 </html>
