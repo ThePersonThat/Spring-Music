@@ -1,9 +1,7 @@
 package com.alex.springmusicproject.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "users")
 public class User {
@@ -13,6 +11,9 @@ public class User {
     private String username;
     private String password;
     private final String role = "ROLE_USER";
+
+    @OneToMany
+    private List<Music> musicList;
 
     public User() {
 
@@ -50,5 +51,13 @@ public class User {
 
     public String getRole() {
         return role;
+    }
+
+    public List<Music> getMusicList() {
+        return musicList;
+    }
+
+    public void setMusicList(List<Music> musicList) {
+        this.musicList = musicList;
     }
 }

@@ -1,7 +1,7 @@
 package com.alex.springmusicproject;
 
 import com.alex.springmusicproject.entity.User;
-import com.alex.springmusicproject.service.StorageService;
+import com.alex.springmusicproject.service.storage.FsStorageService;
 import com.alex.springmusicproject.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +18,7 @@ public class SpringMusicProjectApplication {
     }
 
     @Bean
-    public CommandLineRunner run(UserService userService, StorageService storage) {
+    public CommandLineRunner run(UserService userService, FsStorageService storage) {
 //        storage.deleteAll();
         return args -> userService.saveUser(new User(0L, "alex", "root"));
     }
