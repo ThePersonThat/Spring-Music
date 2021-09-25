@@ -3,7 +3,6 @@ package com.alex.springmusicproject.service.storage;
 import com.alex.springmusicproject.entity.Music;
 import com.alex.springmusicproject.entity.User;
 import com.alex.springmusicproject.repo.MusicRepo;
-import com.alex.springmusicproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +30,7 @@ public class DataBaseStorageServiceImpl implements DatabaseStorageService {
         String filename = file.getOriginalFilename();
         String[] tokens = filename.split("-");
         String band = tokens[0];
-        String songName = tokens[1];
+        String songName = tokens[1].substring(0, tokens[1].indexOf('.'));
 
         return new Music(band, songName, filename);
     }

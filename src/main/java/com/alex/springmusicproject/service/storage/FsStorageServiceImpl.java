@@ -63,16 +63,17 @@ public class FsStorageServiceImpl implements FsStorageService {
     }
 
     @Override
-    public Resource loadResource(String username) throws UserFolderNotFoundException {
+    public Resource loadResource(String username, String filename)  {
         String path = DIR + "/" + username;
 
         if (!Files.exists(Paths.get(path))) {
             throw new UserFolderNotFoundException(username + " does not have own folder!");
         }
+
         UrlResource urlResource = null;
 
         try {
-            urlResource = new UrlResource(new File(path + "/" + "m.mp3").toURI().toURL());
+            urlResource = new UrlResource(new File(path + "/" + filename).toURI().toURL());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

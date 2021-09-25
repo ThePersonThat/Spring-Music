@@ -2,6 +2,10 @@ body {
     height: 100vh;
 }
 
+.modal-dialog {
+    margin: 0 auto;
+}
+
 .navbar {
     background: #243A5D;
     height: 70px;
@@ -31,10 +35,11 @@ body {
     width: 350px;
     height: 550px;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.08);
+    background: #243A5D;
     padding: 30px;
     overflow: hidden;
     color: #d5eebb;
+    margin-left: 75px;
 }
 
 .music-name,
@@ -139,7 +144,7 @@ body {
     transform: translateY(-50%);
     width: 10px;
     height: 30px;
-    /*border-radius: 2px;*/
+    border-radius: 2px;
     background: #5f7a61;
     transition: .5s;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
@@ -206,4 +211,15 @@ body {
 
 .disk.play {
     animation-play-state: running;
+}
+
+.play-card {
+    border: 5px solid #243A5D;
+}
+
+.music-block {
+    cursor: pointer;
+    border: 2px solid #243A5D;
+    border-radius: 10px;
+    font-size: 22px;
 }

@@ -12,23 +12,42 @@
     </style>
 </head>
 <body>
-<div class="container d-flex justify-content-center align-items-center h-100 w-100">
-    <div class="music-player">
-        <h1 class="music-name">song one</h1>
-        <p class="artist-name">artist</p>
-        <div class="disk"></div>
-        <div class="song-slider">
-            <input type="range" value="0" class="seek-bar">
-            <span class="current-time">00:00</span>
-            <span class="song-duration">00:00</span>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content music-player">
+            <h1 class="music-name">song one</h1>
+            <p class="artist-name">artist</p>
+            <div class="music-id" hidden></div>
+            <div class="disk"></div>
+            <div class="song-slider">
+                <input type="range" value="0" class="seek-bar">
+                <span class="current-time">00:00</span>
+                <span class="song-duration">00:00</span>
+            </div>
+            <div class="controls">
+                <button class="btn-music backward-btn"><img src="images/pre.png" alt=""></button>
+                <button class="play-btn pause">
+                    <span></span>
+                    <span></span>
+                </button>
+                <button class="btn-music forward-btn"><img src="images/nxt.png" alt=""></button>
+            </div>
         </div>
-        <div class="controls">
-            <button class="btn-music backward-btn"><img src="images/pre.png" alt=""></button>
-            <button class="play-btn pause">
-                <span></span>
-                <span></span>
-            </button>
-            <button class="btn-music forward-btn"><img src="images/nxt.png" alt=""></button>
+    </div>
+</div>
+<div class="container d-flex justify-content-center align-items-center h-100 w-100">
+    <div class="card play-card">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+            <h2 class="card-title">Music</h2>
+            <div class="row h-100 w-100 justify-content-center" onclick="openWindow(this)" data-toggle="modal" data-target="#exampleModal">
+                <div th:each="music: ${musicList}" class="music-block row w-100 h-25 align-items-center justify-content-center">
+                    <div class="band" th:utext="${music.band}"></div>
+                    <div>&nbsp;-&nbsp;</div>
+                    <div class="name" th:utext="${music.name}"></div>
+                    <div class="id" hidden th:utext="${music.id}"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -44,29 +63,40 @@
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
 <script type="module" src="../static/js/music.js"></script>
+<script>
+    function openWindow(musicRow) {
+        let band = $(musicRow).find('.band').text();
+        let songName = $(musicRow).find('.name').text();
+        let id = $(musicRow).find('.id').text();
+
+        $('.music-name').text(songName);
+        $('.artist-name').text(band);
+        $('.music-id').text(id);
+    }
+</script>
 <script type="module">
     import * as music from '../static/js/music.js';
 
-    const playBtn = document.querySelector('.play-btn');
-    const currentTime = document.querySelector('.current-time');
-    const musicDuration = document.querySelector('.song-duration');
-    const seekBar = document.querySelector('.seek-bar');
+    const playBtn = $('.play-btn');
+    const currentTime = $('.current-time');
+    const musicDuration = $('.song-duration');
+    const seekBar = $('.seek-bar');
     let sound = undefined;
 
-    playBtn.addEventListener('click', () => {
-        if (playBtn.className.includes('pause')) {
+    playBtn.on('click', () => {
+        if (playBtn.attr('class').includes('pause')) {
             if (sound === undefined) {
-                sound = music.load("http://localhost:8080/auth/music");
-                seekBar.value = 0;
+                sound = music.load("http://localhost:8080/auth/music/" + $('.music-id').text());
+                seekBar.val(0);
 
                 sound.once('load', () => {
                     sound.play();
-                    musicDuration.innerHTML = sound.getDuration();
-                    seekBar.max = sound.getNotFormatedDuration();
+                    musicDuration.html(sound.getDuration());
+                    seekBar.attr('max', sound.getNotFormatedDuration());
 
                     setInterval(() => {
-                        seekBar.value = sound.getNotFormatedTime();
-                        currentTime.innerHTML = sound.getCurrentTime();
+                        seekBar.val(sound.getNotFormatedTime());
+                        currentTime.html(sound.getCurrentTime());
                     }, 500);
                 })
             } else {
@@ -75,11 +105,11 @@
         } else {
             sound.pause();
         }
-        playBtn.classList.toggle('pause');
+        playBtn.toggleClass('pause');
     });
 
-    seekBar.addEventListener('change', () => {
-        sound.setCurrentTime(seekBar.value);
+    seekBar.on('change', () => {
+        sound.setCurrentTime(seekBar.val());
     });
 </script>
 </html>

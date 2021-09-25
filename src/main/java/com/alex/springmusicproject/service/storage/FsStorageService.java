@@ -7,5 +7,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface FsStorageService {
     void store(MultipartFile file, String username);
     void deleteAll();
-    Resource loadResource(String username) throws UserFolderNotFoundException;
+    Resource loadResource(String username, String filename) throws UserFolderNotFoundException;
 }

@@ -45,4 +45,12 @@ public class Music {
     public void setFilename(String filename) {
         this.filename = filename;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
