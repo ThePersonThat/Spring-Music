@@ -10,4 +10,5 @@ public interface MusicService {
     void saveMusic(MultipartFile file, String username);
     List<Music> getMusicList(String username);
     Resource loadMusic(String username, String id);
+    Resource loadImage(String username, String id);
 }

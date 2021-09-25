@@ -3,6 +3,8 @@ package com.alex.springmusicproject.service.storage;
 import com.alex.springmusicproject.entity.Music;
 import com.alex.springmusicproject.entity.User;
 import com.alex.springmusicproject.repo.MusicRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +14,7 @@ import javax.transaction.Transactional;
 @Service
 public class DataBaseStorageServiceImpl implements DatabaseStorageService {
     private final MusicRepo musicRepo;
+    private final Logger logger = LoggerFactory.getLogger(DataBaseStorageServiceImpl.class);
 
     @Autowired
     public DataBaseStorageServiceImpl(MusicRepo musicRepo) {
@@ -20,18 +23,9 @@ public class DataBaseStorageServiceImpl implements DatabaseStorageService {
 
     @Override
     @Transactional
-    public void save(MultipartFile file, User user) {
-        Music music = parseFile(file);
+    public void save(Music music, User user) {
         user.getMusicList().add(music);
         musicRepo.save(music);
-    }
-
-    private Music parseFile(MultipartFile file) {
-        String filename = file.getOriginalFilename();
-        String[] tokens = filename.split("-");
-        String band = tokens[0];
-        String songName = tokens[1].substring(0, tokens[1].indexOf('.'));
-
-        return new Music(band, songName, filename);
+        logger.info("The data of the music: " + music.getFilename() + " was saved to the database");
     }
 }

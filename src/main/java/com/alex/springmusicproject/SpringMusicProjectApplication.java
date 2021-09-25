@@ -1,8 +1,8 @@
 package com.alex.springmusicproject;
 
 import com.alex.springmusicproject.entity.User;
-import com.alex.springmusicproject.service.storage.FsStorageService;
 import com.alex.springmusicproject.service.UserService;
+import com.alex.springmusicproject.service.storage.FsStorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

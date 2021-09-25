@@ -2,6 +2,9 @@ package com.alex.springmusicproject.service;
 
 import com.alex.springmusicproject.entity.User;
 import com.alex.springmusicproject.repo.UserRepo;
+import com.alex.springmusicproject.service.storage.DataBaseStorageServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +20,7 @@ import java.util.Collection;
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
+    private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     public UserServiceImpl(UserRepo userRepo, PasswordEncoder passwordEncoder) {
@@ -35,7 +39,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = userRepo.findByUsername(username);
 
         if (user == null) {
-            throw new UsernameNotFoundException("User with username " + username + " is not found");
+            String msg = "User with username " + username + " is not found";
+            logger.warn(msg);
+            throw new UsernameNotFoundException(msg);
         }
 
         return user;

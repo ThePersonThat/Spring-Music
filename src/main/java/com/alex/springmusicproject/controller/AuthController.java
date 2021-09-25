@@ -1,7 +1,6 @@
 package com.alex.springmusicproject.controller;
 
 import com.alex.springmusicproject.entity.Music;
-import com.alex.springmusicproject.excpetion.UserFolderNotFoundException;
 import com.alex.springmusicproject.service.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -42,13 +41,12 @@ public class AuthController {
     @GetMapping("/play")
     public String play(Principal principal, Model model) {
         List<Music> musicList = service.getMusicList(principal.getName());
-        System.out.println(musicList.get(0));
         model.addAttribute("musicList", musicList);
 
         return "play-page";
     }
 
-   @GetMapping("/music/{id}")
+    @GetMapping("/music/{id}")
     public ResponseEntity<Resource> music(Principal principal, @PathVariable String id) {
         Resource file = service.loadMusic(principal.getName(), id);
 
@@ -57,5 +55,11 @@ public class AuthController {
                                 file.getFilename()).
                         orElse(MediaType.APPLICATION_OCTET_STREAM))
                 .body(file);
+    }
+
+    @GetMapping("/image/{id}")
+    public ResponseEntity<Resource> image(Principal principal, @PathVariable String id) {
+        Resource file = service.loadImage(principal.getName(), id);
+        return ResponseEntity.ok().body(file);
     }
 }
