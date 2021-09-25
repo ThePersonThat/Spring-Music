@@ -40,8 +40,10 @@
     <div class="card play-card">
         <div class="card-body d-flex flex-column justify-content-center align-items-center">
             <h2 class="card-title">Music</h2>
-            <div class="row h-100 w-100 justify-content-center" onclick="openWindow(this)" data-toggle="modal" data-target="#exampleModal">
-                <div th:each="music: ${musicList}" class="music-block row w-100 h-25 align-items-center justify-content-center">
+            <div class="row h-100 w-100 justify-content-center" onclick="openWindow(this)" data-toggle="modal"
+                 data-target="#exampleModal">
+                <div th:each="music: ${musicList}"
+                     class="music-block row w-100 h-25 align-items-center justify-content-center">
                     <div class="band" th:utext="${music.band}"></div>
                     <div>&nbsp;-&nbsp;</div>
                     <div class="name" th:utext="${music.name}"></div>
@@ -72,6 +74,7 @@
         $('.music-name').text(songName);
         $('.artist-name').text(band);
         $('.music-id').text(id);
+        $('.disk').css("background-image", "url(http://localhost:8080/auth/image/" + id + ")");
     }
 </script>
 <script type="module">
@@ -81,6 +84,7 @@
     const currentTime = $('.current-time');
     const musicDuration = $('.song-duration');
     const seekBar = $('.seek-bar');
+    const disk = $('.disk');
     let sound = undefined;
 
     playBtn.on('click', () => {
@@ -106,6 +110,7 @@
             sound.pause();
         }
         playBtn.toggleClass('pause');
+        disk.toggleClass('play');
     });
 
     seekBar.on('change', () => {

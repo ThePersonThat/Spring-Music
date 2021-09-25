@@ -69,7 +69,7 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public Resource loadImage(String username, String id) {
+    public byte[] loadImage(String username, String id) {
 //        Optional<Music> music = musicRepo.findById(Long.parseLong(id));
 
             return fsStorage.loadImage(username);

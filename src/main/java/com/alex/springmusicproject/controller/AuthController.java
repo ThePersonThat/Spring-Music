@@ -2,6 +2,7 @@ package com.alex.springmusicproject.controller;
 
 import com.alex.springmusicproject.entity.Music;
 import com.alex.springmusicproject.service.MusicService;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,8 +60,8 @@ public class AuthController {
     }
 
     @GetMapping("/image/{id}")
-    public ResponseEntity<Resource> image(Principal principal, @PathVariable String id) {
-        Resource file = service.loadImage(principal.getName(), id);
-        return ResponseEntity.ok().body(file);
+    public ResponseEntity<byte[]> image(Principal principal, @PathVariable String id) {
+        byte[] file = service.loadImage(principal.getName(), id);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(file);
     }
 }

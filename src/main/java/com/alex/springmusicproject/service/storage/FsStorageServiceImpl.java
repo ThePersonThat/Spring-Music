@@ -1,20 +1,18 @@
 package com.alex.springmusicproject.service.storage;
 
 import com.alex.springmusicproject.excpetion.UserFolderNotFoundException;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -80,8 +78,17 @@ public class FsStorageServiceImpl implements FsStorageService {
     }
 
     @Override
-    public Resource loadImage(String username) {
-        return loadResource(username, "image.png");
+    public byte[] loadImage(String username) {
+        Resource resource = loadResource(username, "image.png");
+        byte[] array = null;
+
+        try {
+            array = FileCopyUtils.copyToByteArray(resource.getFile());
+        } catch (IOException e) {
+            logger.error("Error load image for " + username);
+        }
+
+        return array;
     }
 
     private Resource loadResource(String username, String filename) {
