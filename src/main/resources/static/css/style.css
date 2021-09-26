@@ -222,4 +222,12 @@ body {
     border: 2px solid #243A5D;
     border-radius: 10px;
     font-size: 22px;
+    height: 70px;
+    margin-top: 20px;
+    transition: .3s;
+}
+
+.music-block:hover {
+    background: #243A5D;
+    color: #FFFFFF;
 }

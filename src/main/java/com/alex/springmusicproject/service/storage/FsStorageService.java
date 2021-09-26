@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 
 public interface FsStorageService {
     void store(MultipartFile file, String username);
-    void store(BufferedImage image, String username);
+    void store(BufferedImage image, String musicName, String username);
     void deleteAll();
     Resource loadMusic(String username, String filename);
-    byte[] loadImage(String username);
+    byte[] loadImage(String username, String musicName);
 }

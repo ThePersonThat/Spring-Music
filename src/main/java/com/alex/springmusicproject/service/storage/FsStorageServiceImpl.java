@@ -26,10 +26,16 @@ public class FsStorageServiceImpl implements FsStorageService {
 
     @Override
     public void store(MultipartFile file, String username) {
-        Path path = Paths.get(makePath(file.getOriginalFilename(), username));
-
         try {
-            Files.write(path, file.getBytes());
+            Path path = Paths.get(makePath(removeExtension(file.getOriginalFilename()), username));
+            File folder = new File(path.toUri());
+
+            if (!folder.mkdir()) {
+                logger.warn("Error creating music folder: " + folder.getName());
+                throw new UserFolderNotFoundException("The folder of the music could not create");
+            }
+
+            Files.write(Paths.get(folder.getPath() + "/music.mp3"), file.getBytes());
             logger.info("Track was uploaded: " + file.getOriginalFilename());
         } catch (IOException e) {
             logger.warn("Error writing file: " + e.getMessage());
@@ -37,11 +43,11 @@ public class FsStorageServiceImpl implements FsStorageService {
     }
 
     @Override
-    public void store(BufferedImage image, String username) {
-        File file = new File(makePath("image.png", username));
+    public void store(BufferedImage image, String musicName, String username) {
+        File file = new File(makePath(removeExtension(musicName), username) + "/image.png");
 
         try {
-            ImageIO.write(image, "jpeg", file);
+            ImageIO.write(image, "png", file);
             logger.info("Image was loaded for " + username);
         } catch (IOException e) {
             logger.error("Error saving image: " + e.getMessage() + "user: " + username);
@@ -74,12 +80,12 @@ public class FsStorageServiceImpl implements FsStorageService {
 
     @Override
     public Resource loadMusic(String username, String filename)  {
-        return loadResource(username, filename);
+        return loadResource(username, removeExtension(filename) + "/music.mp3");
     }
 
     @Override
-    public byte[] loadImage(String username) {
-        Resource resource = loadResource(username, "image.png");
+    public byte[] loadImage(String username, String musicName) {
+        Resource resource = loadResource(username, removeExtension(musicName) + "/image.png");
         byte[] array = null;
 
         try {
@@ -113,5 +119,9 @@ public class FsStorageServiceImpl implements FsStorageService {
 
     private String makePath(String filename, String username) {
         return DIR + "/" + username + "/" + filename;
+    }
+
+    private String removeExtension(String filename) {
+        return filename.substring(0, filename.indexOf('.'));
     }
 }

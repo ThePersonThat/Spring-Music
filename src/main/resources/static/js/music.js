@@ -1,4 +1,4 @@
-export const formatTime = (time) => {
+const formatTime = (time) => {
     let min = Math.floor(time / 60);
     if (min < 10) {
         min = `0${min}`;
@@ -19,10 +19,11 @@ function Sound(track) {
     this.getNotFormatedDuration = () => this.sound.duration();
     this.play = () => this.sound.play();
     this.pause = () => this.sound.pause();
-    this.once = (event, fn) => this.sound.once(event, fn);
+    this.on = (event, fn) => this.sound.on(event, fn);
+    this.unload = () => this.sound.unload();
 }
 
-export function load(url) {
+function load(url) {
     const track = new Howl({
         src: [url],
         format: ["mp3"],

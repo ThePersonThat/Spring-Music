@@ -44,8 +44,7 @@ public class MusicServiceImpl implements MusicService {
         fsStorage.store(file, username);
         databaseStorage.save(music, user);
         BufferedImage image = imageService.getImage(music.getBand());
-
-        fsStorage.store(image, username);
+        fsStorage.store(image, file.getOriginalFilename(), username);
     }
 
     @Override
@@ -70,14 +69,15 @@ public class MusicServiceImpl implements MusicService {
 
     @Override
     public byte[] loadImage(String username, String id) {
-//        Optional<Music> music = musicRepo.findById(Long.parseLong(id));
+        Optional<Music> music = musicRepo.findById(Long.parseLong(id));
 
-            return fsStorage.loadImage(username);
-        /*} else {
+        if (music.isPresent()) {
+            return fsStorage.loadImage(username, music.get().getFilename());
+        } else {
             String msg = "Music: " + id + " with username: " + username + " was not found";
             logger.warn(msg);
             throw new MusicNotFoundException(msg);
-        }*/
+        }
     }
 
     private Music parseFile(MultipartFile file) {
