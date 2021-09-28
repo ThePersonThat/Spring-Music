@@ -23,7 +23,6 @@ import java.util.List;
 public class AuthController {
     private final MusicService service;
 
-    @Autowired
     public AuthController(MusicService service) {
         this.service = service;
     }
@@ -48,6 +47,7 @@ public class AuthController {
         return "play-page";
     }
 
+    @CrossOrigin("*")
     @GetMapping("/music/{id}")
     public ResponseEntity<Resource> music(Principal principal, @PathVariable String id) {
         Resource file = service.loadMusic(principal.getName(), id);

@@ -7,21 +7,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 
 @Service
-public class DataBaseStorageServiceImpl implements DatabaseStorageService {
+public class DataBaseStorageService {
     private final MusicRepo musicRepo;
-    private final Logger logger = LoggerFactory.getLogger(DataBaseStorageServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(DataBaseStorageService.class);
 
-    @Autowired
-    public DataBaseStorageServiceImpl(MusicRepo musicRepo) {
+    public DataBaseStorageService(MusicRepo musicRepo) {
         this.musicRepo = musicRepo;
     }
 
-    @Override
     @Transactional
     public void save(Music music, User user) {
         user.getMusicList().add(music);

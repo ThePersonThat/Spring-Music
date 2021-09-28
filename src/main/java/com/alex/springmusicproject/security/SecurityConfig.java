@@ -16,7 +16,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userService;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
     public SecurityConfig(UserDetailsService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
@@ -35,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/")
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/auth/*").authenticated()
+                    .antMatchers("/auth/**").authenticated()
                     .anyRequest().permitAll();
     }
 

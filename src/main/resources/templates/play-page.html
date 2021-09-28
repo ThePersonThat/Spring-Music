@@ -82,12 +82,12 @@
 
         $('.music-name').text(songName);
         $('.artist-name').text(band);
-        disk.css("background-image", "url(http://localhost:8080/auth/image/" + id + ")");
+        disk.css("background-image", "url(http://6000-93-170-71-141.ngrok.io/auth/image/" + id + ")");
     }
 
     function setMusic(id) {
         seekBar.val(0);
-        sound = load("http://localhost:8080/auth/music/" + id);
+        sound = load("http://6000-93-170-71-141.ngrok.io/auth/music/" + id);
 
         sound.on('load', () => {
             musicDuration.html(sound.getDuration());
